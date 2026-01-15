@@ -1,8 +1,9 @@
 ---
-name: pdf 
-description: 全面的 PDF 处理工具包，用于提取文本和表格、创建新 PDF、合并/拆分文档以及处理表单。适用于 Claude 需要填写 PDF 表单，或以编程方式大规模地处理、生成或分析 PDF 文档的场景。 
-license: 私有（Proprietary）。完整条款请参阅 LICENSE.txt。
+name: pdf
+description: Comprehensive PDF manipulation toolkit for extracting text and tables, creating new PDFs, merging/splitting documents, and handling forms. When Claude needs to fill in a PDF form or programmatically process, generate, or analyze PDF documents at scale.
+license: Proprietary. LICENSE.txt has complete terms
 ---
+
 # PDF Processing Guide
 
 ## Overview
@@ -29,7 +30,6 @@ for page in reader.pages:
 ### pypdf - Basic Operations
 
 #### Merge PDFs
-
 ```python
 from pypdf import PdfWriter, PdfReader
 
@@ -44,7 +44,6 @@ with open("merged.pdf", "wb") as output:
 ```
 
 #### Split PDF
-
 ```python
 reader = PdfReader("input.pdf")
 for i, page in enumerate(reader.pages):
@@ -55,7 +54,6 @@ for i, page in enumerate(reader.pages):
 ```
 
 #### Extract Metadata
-
 ```python
 reader = PdfReader("document.pdf")
 meta = reader.metadata
@@ -66,7 +64,6 @@ print(f"Creator: {meta.creator}")
 ```
 
 #### Rotate Pages
-
 ```python
 reader = PdfReader("input.pdf")
 writer = PdfWriter()
@@ -82,7 +79,6 @@ with open("rotated.pdf", "wb") as output:
 ### pdfplumber - Text and Table Extraction
 
 #### Extract Text with Layout
-
 ```python
 import pdfplumber
 
@@ -93,7 +89,6 @@ with pdfplumber.open("document.pdf") as pdf:
 ```
 
 #### Extract Tables
-
 ```python
 with pdfplumber.open("document.pdf") as pdf:
     for i, page in enumerate(pdf.pages):
@@ -105,7 +100,6 @@ with pdfplumber.open("document.pdf") as pdf:
 ```
 
 #### Advanced Table Extraction
-
 ```python
 import pandas as pd
 
@@ -127,7 +121,6 @@ if all_tables:
 ### reportlab - Create PDFs
 
 #### Basic PDF Creation
-
 ```python
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -147,7 +140,6 @@ c.save()
 ```
 
 #### Create PDF with Multiple Pages
-
 ```python
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
@@ -174,54 +166,9 @@ story.append(Paragraph("Content for page 2", styles['Normal']))
 doc.build(story)
 ```
 
-### Python-Driven Browser Export (Playwright)
-
-For complex layouts (charts, CSS) or non-Latin characters (Chinese, etc.), using a Python-driven headless browser is the most robust solution. Unlike the direct CLI method, this allows for full control over headers, footers, and margins.
-
-#### Setup
-
-```bash
-pip install playwright
-playwright install chromium
-```
-
-#### Code Snippet (watermark-free)
-
-This script loads an HTML file and exports a clean PDF without default headers/footers.
-
-```python
-import asyncio
-from playwright.async_api import async_playwright
-
-async def html_to_pdf(html_file, pdf_file):
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await browser.new_page()
-        # Ensure absolute path for local files
-        import os
-        await page.goto(f"file:///{os.path.abspath(html_file)}")
-        await page.wait_for_load_state("networkidle")
-        
-        await page.pdf(
-            path=pdf_file,
-            format="A4",
-            print_background=True,
-            display_header_footer=False, # Set to False to remove "watermark" info
-            margin={"top": "20mm", "bottom": "20mm", "left": "20mm", "right": "20mm"}
-        )
-        await browser.close()
-
-if __name__ == "__main__":
-    asyncio.run(html_to_pdf("input.html", "output.pdf"))
-```
-
-> [!TIP]
-> **Chinese Character Support**: When processing Chinese Markdown, ensure the file is saved in **UTF-8** encoding. When converting with Pandoc, use `pandoc -s input.md -o output.html --metadata lang=zh` to ensure proper locale rendering before exporting via Playwright.
-
 ## Command-Line Tools
 
 ### pdftotext (poppler-utils)
-
 ```bash
 # Extract text
 pdftotext input.pdf output.txt
@@ -234,7 +181,6 @@ pdftotext -f 1 -l 5 input.pdf output.txt  # Pages 1-5
 ```
 
 ### qpdf
-
 ```bash
 # Merge PDFs
 qpdf --empty --pages file1.pdf file2.pdf -- merged.pdf
@@ -251,7 +197,6 @@ qpdf --password=mypassword --decrypt encrypted.pdf decrypted.pdf
 ```
 
 ### pdftk (if available)
-
 ```bash
 # Merge
 pdftk file1.pdf file2.pdf cat output merged.pdf
@@ -266,7 +211,6 @@ pdftk input.pdf rotate 1east output rotated.pdf
 ## Common Tasks
 
 ### Extract Text from Scanned PDFs
-
 ```python
 # Requires: pip install pytesseract pdf2image
 import pytesseract
@@ -286,7 +230,6 @@ print(text)
 ```
 
 ### Add Watermark
-
 ```python
 from pypdf import PdfReader, PdfWriter
 
@@ -306,7 +249,6 @@ with open("watermarked.pdf", "wb") as output:
 ```
 
 ### Extract Images
-
 ```bash
 # Using pdfimages (poppler-utils)
 pdfimages -j input.pdf output_prefix
@@ -315,7 +257,6 @@ pdfimages -j input.pdf output_prefix
 ```
 
 ### Password Protection
-
 ```python
 from pypdf import PdfReader, PdfWriter
 
@@ -334,17 +275,16 @@ with open("encrypted.pdf", "wb") as output:
 
 ## Quick Reference
 
-| Task               | Best Tool                       | Command/Code                 |
-| ------------------ | ------------------------------- | ---------------------------- |
-| Merge PDFs         | pypdf                           | `writer.add_page(page)`    |
-| Split PDFs         | pypdf                           | One page per file            |
-| Extract text       | pdfplumber                      | `page.extract_text()`      |
-| Extract tables     | pdfplumber                      | `page.extract_tables()`    |
-| Create PDFs        | reportlab                       | Canvas or Platypus           |
-| Export via Browser | Playwright (Python)             | `page.pdf()` with options    |
-| Command line merge | qpdf                            | `qpdf --empty --pages ...` |
-| OCR scanned PDFs   | pytesseract                     | Convert to image first       |
-| Fill PDF forms     | pdf-lib or pypdf (see forms.md) | See forms.md                 |
+| Task | Best Tool | Command/Code |
+|------|-----------|--------------|
+| Merge PDFs | pypdf | `writer.add_page(page)` |
+| Split PDFs | pypdf | One page per file |
+| Extract text | pdfplumber | `page.extract_text()` |
+| Extract tables | pdfplumber | `page.extract_tables()` |
+| Create PDFs | reportlab | Canvas or Platypus |
+| Command line merge | qpdf | `qpdf --empty --pages ...` |
+| OCR scanned PDFs | pytesseract | Convert to image first |
+| Fill PDF forms | pdf-lib or pypdf (see forms.md) | See forms.md |
 
 ## Next Steps
 
