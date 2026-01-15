@@ -37,7 +37,7 @@ related: "[[Other Note]]"
 ## Text Formatting
 
 | Style | Syntax | Output |
-|--------|---------|--------|
+|-------|--------|--------|
 | Bold | `**text**` or `__text__` | **Bold** |
 | Italic | `*text*` or `_text_` | *Italic* |
 | Bold + Italic | `***text***` | ***Both*** |
