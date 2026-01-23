@@ -28,3 +28,6 @@ yarn-error.log*
 *.log
 tmp/
 temp/
+
+#项目
+nhx/
