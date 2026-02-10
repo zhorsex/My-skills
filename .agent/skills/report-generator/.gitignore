@@ -1,0 +1,25 @@
+# Skill-specific ignore patterns
+*.tmp
+*.bak
+*.swp
+*~
+
+# Cache directories (these contain runtime-generated data)
+iteration/cache/*
+iteration/local/*
+iteration/evaluations/*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Skill output (generated files, not committed to skill)
+*.skill
+examples/output/
