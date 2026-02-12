@@ -1,0 +1,52 @@
+{
+  "name": "github-repo",
+  "description": "GitHub 仓库深度分析 - 包含代码结构、API、测试示例和社区问题",
+  "type": "github",
+  "version": "1.0.0",
+  
+  "github_config": {
+    "repo": "owner/repository",
+    "branch": "main",
+    
+    "code_analysis": {
+      "enabled": true,
+      "depth": "c3x",
+      "languages": ["python", "javascript", "typescript"],
+      "include_patterns": ["*.py", "*.js", "*.ts"],
+      "exclude_patterns": ["*.test.*", "*.spec.*", "node_modules/**"]
+    },
+    
+    "features": {
+      "include_readme": true,
+      "include_code": true,
+      "include_issues": true,
+      "max_issues": 100,
+      "issue_state": "all",
+      "include_releases": true,
+      "max_releases": 20,
+      "include_changelog": true,
+      "include_contributing": true,
+      "include_license": true
+    },
+    
+    "c3x_analysis": {
+      "patterns": true,
+      "test_examples": true,
+      "how_to_guides": true,
+      "config_extraction": true,
+      "architecture": true,
+      "signal_flow": false
+    }
+  },
+  
+  "rate_limit": {
+    "strategy": "prompt",
+    "timeout": 1800,
+    "profiles": ["personal", "work"]
+  },
+  
+  "enhancement": {
+    "enabled": true,
+    "mode": "api"
+  }
+}

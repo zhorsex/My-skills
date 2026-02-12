@@ -1,0 +1,36 @@
+{
+  "name": "pdf-manual",
+  "description": "从 PDF 手册提取的技能 - 包含文本、代码示例和表格",
+  "type": "pdf",
+  "version": "1.0.0",
+  
+  "pdf_config": {
+    "extract_text": true,
+    "extract_tables": true,
+    "extract_images": false,
+    "ocr": false,
+    "parallel": true,
+    "workers": 4,
+    "password": null
+  },
+  
+  "processing": {
+    "detect_code_blocks": true,
+    "detect_language": true,
+    "preserve_formatting": true,
+    "split_chapters": true
+  },
+  
+  "categories": {
+    "introduction": ["intro", "overview", "about"],
+    "installation": ["install", "setup", "configuration"],
+    "usage": ["usage", "how to", "tutorial"],
+    "api": ["api", "reference", "function", "method"],
+    "troubleshooting": ["trouble", "error", "fix", "debug"]
+  },
+  
+  "enhancement": {
+    "enabled": true,
+    "mode": "local"
+  }
+}

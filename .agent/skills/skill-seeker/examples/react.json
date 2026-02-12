@@ -1,0 +1,43 @@
+{
+  "name": "react",
+  "description": "React 官方文档 - 用于前端开发、组件设计和状态管理",
+  "base_url": "https://react.dev/",
+  "version": "18.x",
+  
+  "selectors": {
+    "main_content": "article",
+    "title": "h1",
+    "code_blocks": "pre code"
+  },
+  
+  "url_patterns": {
+    "include": [
+      "/learn",
+      "/reference",
+      "/blog"
+    ],
+    "exclude": [
+      "/community",
+      "/versions"
+    ]
+  },
+  
+  "categories": {
+    "getting_started": {
+      "keywords": ["learn", "tutorial", "thinking", "start"],
+      "weight": 3
+    },
+    "api_reference": {
+      "keywords": ["reference", "api", "hooks", "components"],
+      "weight": 2
+    },
+    "advanced": {
+      "keywords": ["advanced", "patterns", "performance", "concurrent"],
+      "weight": 1
+    }
+  },
+  
+  "rate_limit": 0.5,
+  "max_pages": 300,
+  "timeout": 30
+}

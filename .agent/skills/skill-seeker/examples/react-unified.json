@@ -1,0 +1,50 @@
+{
+  "name": "react-unified",
+  "description": "React 完整知识库 - 包含官方文档和 GitHub 源码，自动检测文档与代码差异",
+  "version": "18.x",
+  "merge_mode": "rule-based",
+  
+  "sources": [
+    {
+      "type": "documentation",
+      "base_url": "https://react.dev/",
+      "selectors": {
+        "main_content": "article",
+        "title": "h1",
+        "code_blocks": "pre code"
+      },
+      "url_patterns": {
+        "include": ["/learn", "/reference"],
+        "exclude": ["/community"]
+      },
+      "max_pages": 200,
+      "rate_limit": 0.5
+    },
+    {
+      "type": "github",
+      "repo": "facebook/react",
+      "include_code": true,
+      "code_analysis_depth": "deep",
+      "include_issues": true,
+      "max_issues": 100,
+      "include_changelog": true,
+      "include_releases": true
+    }
+  ],
+  
+  "conflict_detection": {
+    "enabled": true,
+    "severity_levels": {
+      "missing_in_code": "high",
+      "missing_in_docs": "medium",
+      "signature_mismatch": "warning",
+      "description_mismatch": "info"
+    }
+  },
+  
+  "enhancement": {
+    "enabled": true,
+    "mode": "local",
+    "sections": ["overview", "examples", "troubleshooting", "best_practices"]
+  }
+}
